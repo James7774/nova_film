@@ -12,12 +12,7 @@ def get_language_keyboard():
 
 
 def get_main_menu(lang):
-    t = TEXTS[lang]
-    builder = InlineKeyboardBuilder()
-    builder.row(InlineKeyboardButton(text=t['btn_enter_code'], callback_data="enter_code"))
-    builder.row(InlineKeyboardButton(text=t['btn_search_name'], callback_data="search_name"))
-    builder.row(InlineKeyboardButton(text=t['btn_help'], callback_data="help"))
-    return builder.as_markup()
+    return None
 
 def get_quality_keyboard(code, videos):
     builder = InlineKeyboardBuilder()

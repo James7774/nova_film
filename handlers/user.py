@@ -1,4 +1,5 @@
 from aiogram import Router, F, types, Bot
+from aiogram.types import FSInputFile
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 from datetime import datetime, date
@@ -30,7 +31,7 @@ from keyboards.inline import (
 from keyboards.reply import get_admin_reply_keyboard
 from utils.states import UserStates
 from utils.texts import TEXTS
-from config import DAILY_LIMIT, CHANNELS, ADMINS
+from config import DAILY_LIMIT, CHANNELS, ADMINS, WELCOME_PHOTO
 
 user_router = Router()
 
@@ -88,6 +89,7 @@ async def cb_set_lang(callback: types.CallbackQuery, bot: Bot, state: FSMContext
     
     # Check if user is subscribed
     missing = await get_missing_channels(bot, user_id)
+    logger.info(f"User {user_id} missing channels: {missing}")
     if missing:
         await callback.message.answer(
             t['sub_required'], 
@@ -95,10 +97,27 @@ async def cb_set_lang(callback: types.CallbackQuery, bot: Bot, state: FSMContext
             parse_mode="HTML"
         )
     else:
-        await callback.message.answer(
-            t['welcome'].format(name=name), 
-            parse_mode="HTML"
-        )
+        try:
+            # We already deleted the message before, but just to be sure
+            try:
+                await callback.message.delete()
+            except:
+                pass
+            
+            photo = FSInputFile(WELCOME_PHOTO) if not WELCOME_PHOTO.startswith('http') else WELCOME_PHOTO
+            await bot.send_photo(
+                chat_id=user_id,
+                photo=photo,
+                caption=t['welcome'].format(name=name), 
+                parse_mode="HTML"
+            )
+            logger.info("Welcome photo sent successfully")
+        except Exception as e:
+            logger.error(f"Error sending welcome photo: {e}")
+            await callback.message.answer(
+                t['welcome'].format(name=name), 
+                parse_mode="HTML"
+            )
 
 
 @user_router.callback_query(F.data == "enter_code")
@@ -263,8 +282,10 @@ async def cb_check_sub(callback: types.CallbackQuery, bot: Bot, state: FSMContex
     
     missing = await get_missing_channels(bot, user_id)
     if not missing:
-        await callback.message.answer(
-            f"✅ {t['sub_check']}\n\n{t['welcome'].format(name=name)}", 
+        await callback.message.delete()
+        await callback.message.answer_photo(
+            photo=FSInputFile(WELCOME_PHOTO) if not WELCOME_PHOTO.startswith('http') else WELCOME_PHOTO,
+            caption=f"✅ {t['sub_check']}\n\n{t['welcome'].format(name=name)}", 
             parse_mode="HTML"
         )
     else:

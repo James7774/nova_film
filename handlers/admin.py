@@ -25,7 +25,6 @@ admin_router.callback_query.filter(F.from_user.id.in_(ADMINS))
 def is_menu_button(text):
     return text in ["🎬 Kino qo'shish", "🗑 Kinoni o'chirish", "📜 Kinolar ro'yxati", "📊 Statistika", "📢 Reklama tarqatish", "📝 Shablon"]
 
-@admin_router.message(CommandStart())
 @admin_router.message(Command("admin"))
 async def cmd_admin(message: types.Message, state: FSMContext):
     await state.clear()
