@@ -23,7 +23,7 @@ admin_router.message.filter(F.from_user.id.in_(ADMINS))
 admin_router.callback_query.filter(F.from_user.id.in_(ADMINS))
 
 def is_menu_button(text):
-    return text in ["🎬 Kino qo'shish", "🗑 Kinoni o'chirish", "📜 Kinolar ro'yxati", "📊 Statistika", "📢 Reklama tarqatish"]
+    return text in ["🎬 Kino qo'shish", "🗑 Kinoni o'chirish", "📜 Kinolar ro'yxati", "📊 Statistika", "📢 Reklama tarqatish", "📝 Shablon"]
 
 @admin_router.message(CommandStart())
 @admin_router.message(Command("admin"))
@@ -250,3 +250,23 @@ async def cb_delete_broadcast(callback: types.CallbackQuery, bot: Bot):
     
     await callback.message.edit_text(f"✅ <b>Reklama barcha foydalanuvchilardan o'chirib yuborildi!</b>\n\nJami o'chirildi: {count}", parse_mode="HTML")
     await callback.answer()
+
+# --- Template Feature ---
+@admin_router.message(F.text == "📝 Shablon")
+async def btn_admin_template(message: types.Message, state: FSMContext):
+    await state.clear()
+    template = (
+        "🎬 <b>Nomi:</b> \n"
+        "🌍 <b>Tili:</b> O'zbek\n"
+        "⭐️ <b>Reyting:</b> 5\n"
+        "⏳ <b>Davomiyligi:</b> \n\n"
+        "📖 <b>Qisqacha mazmun:</b> \n"
+        "________________________\n\n"
+        "🔐 <b>Kod:</b> "
+    )
+    await message.answer(
+        "📝 <b>Kino uchun tavsif shabloni:</b>\n\n"
+        f"<code>{template}</code>\n\n"
+        "☝️ <i>Shablon ustiga bossangiz u nusxalanadi. Uni nusxalab olib, kerakli joylarni to'ldirib, kino qo'shish vaqtida tavsif sifatida yuborishingiz mumkin.</i>",
+        parse_mode="HTML"
+    )

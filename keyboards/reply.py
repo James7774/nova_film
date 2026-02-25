@@ -11,7 +11,8 @@ def get_admin_reply_keyboard():
             KeyboardButton(text="📊 Statistika")
         ],
         [
-            KeyboardButton(text="📢 Reklama tarqatish")
+            KeyboardButton(text="📢 Reklama tarqatish"),
+            KeyboardButton(text="📝 Shablon")
         ]
     ]
     return ReplyKeyboardMarkup(
