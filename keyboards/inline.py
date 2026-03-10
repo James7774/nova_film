@@ -36,18 +36,39 @@ def get_admin_panel():
     builder.row(InlineKeyboardButton(text="📊 Statistika", callback_data="admin_stats"))
     return builder.as_markup()
 
-def get_subscribe_keyboard(lang, missing_channels=None):
-    from config import CHANNELS, INSTAGRAM_LINK
+async def get_subscribe_keyboard(lang, bot=None, user_id=None, missing=None):
+    from database.db import get_all_channels
+    import asyncio
     t = TEXTS[lang]
     builder = InlineKeyboardBuilder()
     
-    # 1-kanal: Telegram (config dagi CHANNELS dan olinadi)
-    if CHANNELS:
-        channel = CHANNELS[0]
-        builder.row(InlineKeyboardButton(text=t['btn_sub'].format(n=1), url=f"https://t.me/{channel.strip('@')}"))
+    # Get channels from DB
+    db_channels = await get_all_channels()
     
-    # 2-kanal: Instagram
-    builder.row(InlineKeyboardButton(text=t['btn_sub'].format(n=2), url=INSTAGRAM_LINK))
+    if missing is not None:
+        # Use pre-calculated missing list if available (much faster!)
+        missing_ids = [str(ch['channel_id']) for ch in missing]
+        results = []
+        for ch in db_channels:
+            status = "🔗" if str(ch['channel_id']) in missing_ids else "✅"
+            results.append((status, ch))
+    else:
+        async def check_member(ch):
+            if not bot or not user_id:
+                return "✅", ch
+            try:
+                member = await bot.get_chat_member(chat_id=ch['channel_id'], user_id=user_id)
+                if member.status in ["creator", "administrator", "member", "restricted"]:
+                    return "✅", ch
+                return "🔗", ch
+            except Exception:
+                return "🔗", ch
+
+        # Check all channels in parallel
+        results = await asyncio.gather(*[check_member(ch) for ch in db_channels])
+    
+    for status, ch in results:
+        builder.row(InlineKeyboardButton(text=f"{status} {ch['title']}", url=ch['url']))
     
     builder.row(InlineKeyboardButton(text=t['btn_check_sub'], callback_data="check_subscription"))
     return builder.as_markup()

@@ -1,6 +1,6 @@
 from aiogram import Router, F, types, Bot
 from aiogram.types import FSInputFile
-from aiogram.filters import CommandStart, Command
+from aiogram.filters import CommandStart, Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from datetime import datetime, date
 import asyncio
@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 from database.db import (
     add_user, get_user_stats, update_user_requests, 
     get_video_by_code, get_video_by_id, increment_views, search_videos_by_title,
-    get_user_language, set_user_language, add_rating, get_rating_stats
+    get_user_language, set_user_language, add_rating, get_rating_stats, get_all_channels, touch_user
 )
 import math
 
@@ -39,11 +39,15 @@ user_router = Router()
 async def cmd_myid(message: types.Message):
     await message.answer(f"Sizning Telegram ID: <code>{message.from_user.id}</code>", parse_mode="HTML")
 
-@user_router.message(CommandStart())
+@user_router.message(CommandStart(), StateFilter("*"))
 async def cmd_start(message: types.Message, state: FSMContext, bot: Bot):
+    await state.clear()
     user_id = message.from_user.id
     name = html.escape(message.from_user.full_name)
-    await add_user(user_id, message.from_user.username)
+    logger.info(f"--- START RECEIVED FROM {user_id} ({message.from_user.full_name}) ---")
+    
+    # Background user recording (don't block the UI!)
+    asyncio.create_task(add_user(user_id, message.from_user.username))
     
     # Auto-detect Admin
     if user_id in ADMINS:
@@ -61,11 +65,14 @@ async def cmd_start(message: types.Message, state: FSMContext, bot: Bot):
         "<b>Выберите подходящий вам язык 🇷🇺</b>\n\n"
         "<b>Choose your preferred language 🇺🇸</b>"
     )
-    await message.answer(
-        text,
-        reply_markup=get_language_keyboard(),
-        parse_mode="HTML"
-    )
+    try:
+        await message.answer(
+            text,
+            reply_markup=get_language_keyboard(),
+            parse_mode="HTML"
+        )
+    except Exception as e:
+        logger.error(f"Error sending language menu: {e}")
 
 @user_router.message(Command("lang"))
 async def cmd_lang(message: types.Message):
@@ -93,7 +100,7 @@ async def cb_set_lang(callback: types.CallbackQuery, bot: Bot, state: FSMContext
     if missing:
         await callback.message.answer(
             t['sub_required'], 
-            reply_markup=get_subscribe_keyboard(lang),
+            reply_markup=await get_subscribe_keyboard(lang, bot, user_id, missing=missing),
             parse_mode="HTML"
         )
     else:
@@ -169,10 +176,14 @@ async def check_single_channel(bot: Bot, user_id: int, idx: int, channel: str):
         return (idx, channel)
 
 async def get_missing_channels(bot: Bot, user_id: int):
-    # Har bir kanalni parallel tekshirish (tezroq ishlashi uchun)
-    tasks = [check_single_channel(bot, user_id, i, ch) for i, ch in enumerate(CHANNELS, 1)]
+    # Get dynamic channels from DB
+    db_channels = await get_all_channels()
+    if not db_channels:
+        return []
+        
+    tasks = [check_single_channel(bot, user_id, i, ch['channel_id']) for i, ch in enumerate(db_channels, 1)]
     results = await asyncio.gather(*tasks)
-    return [r for r in results if r is not None]
+    return [db_channels[r[0]-1] for r in results if r is not None] # Return the channel dict
 
 @user_router.message(UserStates.entering_code)
 async def process_code(message: types.Message, state: FSMContext, bot: Bot):
@@ -187,7 +198,7 @@ async def process_code(message: types.Message, state: FSMContext, bot: Bot):
     # Real Sub check for Telegram
     missing = await get_missing_channels(bot, message.from_user.id)
     if missing:
-        await message.answer(t['sub_required'], reply_markup=get_subscribe_keyboard(lang))
+        await message.answer(t['sub_required'], reply_markup=await get_subscribe_keyboard(lang, bot, message.from_user.id, missing=missing))
         return
 
     videos = await get_video_by_code(code)
@@ -290,15 +301,19 @@ async def cb_check_sub(callback: types.CallbackQuery, bot: Bot, state: FSMContex
         )
     else:
         await callback.message.answer(
-            t['sub_required'],
-            reply_markup=get_subscribe_keyboard(lang),
+            t['sub_required'], 
+            reply_markup=await get_subscribe_keyboard(lang, bot, user_id, missing=missing),
             parse_mode="HTML"
         )
         await callback.answer(t['sub_failed'], show_alert=True)
 
 # Add a default numeric handler so users don't have to be in 'entering_code' state
-@user_router.message(F.text.regexp(r'^\s*\d+\s*$'))
+# IMPORTANT: restrict to State(None) so it doesn't interfere with Admin flows
+@user_router.message(F.text.regexp(r'^\s*\d+\s*$'), StateFilter(None))
 async def direct_code_lookup(message: types.Message, state: FSMContext, bot: Bot):
+    # Additional check: Skip if it's an admin (let admin router handle it if it wants)
+    if message.from_user.id in ADMINS:
+        return
     await process_code(message, state, bot)
 
 @user_router.callback_query(F.data.startswith("send_video:"))
@@ -308,7 +323,7 @@ async def cb_send_video(callback: types.CallbackQuery, bot: Bot, state: FSMConte
     
     missing = await get_missing_channels(bot, callback.from_user.id)
     if missing:
-        await callback.message.answer(t['sub_required'], reply_markup=get_subscribe_keyboard(lang))
+        await callback.message.answer(t['sub_required'], reply_markup=await get_subscribe_keyboard(lang, bot, callback.from_user.id, missing=missing))
         await callback.answer()
         return
 
@@ -393,23 +408,42 @@ async def cb_rate_video_start(callback: types.CallbackQuery, state: FSMContext):
 
 @user_router.callback_query(F.data.startswith("set_rate:"))
 async def cb_set_rate(callback: types.CallbackQuery, bot: Bot):
-    _, video_id, stars = callback.data.split(":")
-    video_id = int(video_id)
-    stars = int(stars)
-    user_id = callback.from_user.id
-    
-    await add_rating(video_id, user_id, stars)
-    await callback.answer(f"Rahmat! Siz {stars} ball berdingiz.", show_alert=True)
-    
-    # Update keyboard with new stats
-    avg_rating, count = await get_rating_stats(video_id)
-    kb = get_video_share_keyboard((await bot.get_me()).username, video_id, avg_rating, count)
-    await callback.message.edit_reply_markup(reply_markup=kb)
+    try:
+        parts = callback.data.split(":")
+        if len(parts) < 3:
+            return
+        video_id = int(parts[1])
+        stars = int(parts[2])
+        user_id = callback.from_user.id
+        
+        await add_rating(video_id, user_id, stars)
+        await callback.answer(f"Rahmat! Siz {stars} ball berdingiz.", show_alert=True)
+        
+        # Update keyboard with new stats
+        avg_rating, count = await get_rating_stats(video_id)
+        me = await bot.get_me()
+        kb = get_video_share_keyboard(me.username, video_id, avg_rating, count)
+        try:
+            await callback.message.edit_reply_markup(reply_markup=kb)
+        except Exception:
+            # Message is not modified or other minor error
+            pass
+    except Exception as e:
+        logger.error(f"Error in cb_set_rate (video_id={video_id if 'video_id' in locals() else '?'}, user_id={callback.from_user.id}): {e}")
+        await callback.answer(f"❌ Baholashda xatolik yuz berdi: {str(e)[:50]}")
 
 @user_router.callback_query(F.data.startswith("back_to_video:"))
 async def cb_back_to_video(callback: types.CallbackQuery, bot: Bot):
-    video_id = int(callback.data.split(":")[1])
-    avg_rating, count = await get_rating_stats(video_id)
-    kb = get_video_share_keyboard((await bot.get_me()).username, video_id, avg_rating, count)
-    await callback.message.edit_reply_markup(reply_markup=kb)
-    await callback.answer()
+    try:
+        video_id = int(callback.data.split(":")[1])
+        avg_rating, count = await get_rating_stats(video_id)
+        me = await bot.get_me()
+        kb = get_video_share_keyboard(me.username, video_id, avg_rating, count)
+        try:
+            await callback.message.edit_reply_markup(reply_markup=kb)
+        except Exception:
+            pass
+        await callback.answer()
+    except Exception as e:
+        logger.error(f"Error in cb_back_to_video: {e}")
+        await callback.answer()

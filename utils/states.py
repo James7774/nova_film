@@ -9,6 +9,10 @@ class AdminStates(StatesGroup):
     waiting_for_expiration = State()
     waiting_for_code_delete = State()
     waiting_for_broadcast = State()
+    waiting_for_channel_title = State()
+    waiting_for_channel_id = State()
+    waiting_for_edit_channel_id = State()
+    waiting_for_new_channel_title = State()
 
 class UserStates(StatesGroup):
     entering_code = State()

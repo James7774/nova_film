@@ -42,7 +42,17 @@ async def init_pg_db():
                 language TEXT DEFAULT 'uz',
                 join_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 daily_requests INTEGER DEFAULT 0,
-                last_request_date DATE
+                last_request_date DATE,
+                last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        
+        await conn.execute('''
+            CREATE TABLE IF NOT EXISTS channels (
+                id SERIAL PRIMARY KEY,
+                title TEXT,
+                url TEXT,
+                channel_id TEXT UNIQUE
             )
         ''')
         
@@ -66,11 +76,16 @@ async def init_pg_db():
             CREATE TABLE IF NOT EXISTS ratings (
                 id SERIAL PRIMARY KEY,
                 video_id INTEGER,
-                user_id INTEGER,
+                user_id BIGINT,
                 rating INTEGER,
                 UNIQUE(video_id, user_id)
             )
         ''')
+        # Migration: Ensure user_id is BIGINT if table already exists
+        try:
+            await conn.execute('ALTER TABLE ratings ALTER COLUMN user_id TYPE BIGINT')
+        except Exception:
+            pass
         
         await conn.execute('''
             CREATE TABLE IF NOT EXISTS broadcast_messages (
@@ -82,6 +97,15 @@ async def init_pg_db():
         ''')
         
         logger.info("✅ Jadvallar tayyor.")
+        
+        # Auto-populate channels from config if empty
+        from config import CHANNELS
+        exists = await conn.fetchval("SELECT COUNT(*) FROM channels")
+        if exists == 0 and CHANNELS:
+            logger.info("🚚 Config-dagi kanallarni bazaga ko'chirilmoqda...")
+            for ch in CHANNELS:
+                url = f"https://t.me/{ch.strip('@')}"
+                await conn.execute('INSERT INTO channels (title, url, channel_id) VALUES ($1, $2, $3)', f"Kanal {ch}", url, ch)
         
         # Check if there's any data
         users_count = await conn.fetchval("SELECT COUNT(*) FROM users")
@@ -125,6 +149,12 @@ async def add_video(code, title, quality, file_id, file_type='video', expires_at
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         ''', code, title, quality, file_id, file_type, expires_at, storage_channel_id, storage_message_id)
 
+async def check_code_exists(code):
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        row = await conn.fetchval('SELECT id FROM videos WHERE code = $1 LIMIT 1', code)
+        return row is not None
+
 async def get_video_by_code(code):
     pool = await get_pool()
     async with pool.acquire() as conn:
@@ -167,12 +197,19 @@ async def get_video_by_id(video_id):
         row = await conn.fetchrow('SELECT file_id, quality, title, views_count, file_type, storage_channel_id, storage_message_id FROM videos WHERE id = $1', video_id)
         return tuple(row) if row else None
 
+async def touch_user(telegram_id):
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('UPDATE users SET last_seen = CURRENT_TIMESTAMP WHERE telegram_id = $1', telegram_id)
+
 async def get_global_stats():
     pool = await get_pool()
     async with pool.acquire() as conn:
         total_users = await conn.fetchval('SELECT COUNT(*) FROM users')
+        # Active in last 30 days
+        active_users = await conn.fetchval("SELECT COUNT(*) FROM users WHERE last_seen > CURRENT_TIMESTAMP - INTERVAL '30 days'")
         total_videos = await conn.fetchval('SELECT COUNT(*) FROM videos')
-        return total_users, total_videos
+        return total_users, active_users, total_videos
 
 async def add_rating(video_id, user_id, rating):
     pool = await get_pool()
@@ -198,6 +235,27 @@ async def get_all_users():
     async with pool.acquire() as conn:
         rows = await conn.fetch('SELECT telegram_id FROM users')
         return [row['telegram_id'] for row in rows]
+
+async def get_all_channels():
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch('SELECT id, title, url, channel_id FROM channels')
+        return [dict(row) for row in rows]
+
+async def add_channel(title, url, channel_id=None):
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('INSERT INTO channels (title, url, channel_id) VALUES ($1, $2, $3) ON CONFLICT (channel_id) DO UPDATE SET title = EXCLUDED.title, url = EXCLUDED.url', title, url, channel_id)
+
+async def delete_channel(channel_id):
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('DELETE FROM channels WHERE id = $1', channel_id)
+
+async def update_channel_title(db_id, new_title):
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('UPDATE channels SET title = $1 WHERE id = $2', new_title, db_id)
 
 async def save_broadcast_message(broadcast_id, user_id, message_id):
     pool = await get_pool()

@@ -12,7 +12,7 @@ def get_admin_reply_keyboard():
         ],
         [
             KeyboardButton(text="📢 Reklama tarqatish"),
-            KeyboardButton(text="📝 Shablon")
+            KeyboardButton(text="📢 Kanallar sozlamasi")
         ]
     ]
     return ReplyKeyboardMarkup(
