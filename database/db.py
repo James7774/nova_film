@@ -1,14 +1,43 @@
-import sqlite3
+import os
+import asyncpg
+import asyncio
 from datetime import datetime
-import aiosqlite
-from config import DATABASE_NAME
+from dotenv import load_dotenv
+import logging
 
-async def init_db():
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        await db.execute('''
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+logger = logging.getLogger(__name__)
+
+# Global pool variable
+pg_pool = None
+
+async def get_pool():
+    global pg_pool
+    if pg_pool is None:
+        try:
+            pg_pool = await asyncpg.create_pool(DATABASE_URL)
+            logger.info("✅ Database pool created successfully.")
+        except Exception as e:
+            logger.error(f"❌ Failed to create database pool: {e}")
+            raise
+    return pg_pool
+
+async def init_pg_db():
+    if not DATABASE_URL:
+        logger.error("❌ DATABASE_URL topilmadi!")
+        return
+        
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        # Create Tables for Neon (PostgreSQL)
+        logger.info("🛠️ Neon.tech (PostgreSQL) jadvallari yaratilmoqda...")
+        
+        await conn.execute('''
             CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                telegram_id INTEGER UNIQUE,
+                id SERIAL PRIMARY KEY,
+                telegram_id BIGINT UNIQUE,
                 username TEXT,
                 language TEXT DEFAULT 'uz',
                 join_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -16,9 +45,10 @@ async def init_db():
                 last_request_date DATE
             )
         ''')
-        await db.execute('''
+        
+        await conn.execute('''
             CREATE TABLE IF NOT EXISTS videos (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id SERIAL PRIMARY KEY,
                 code TEXT,
                 title TEXT,
                 quality TEXT,
@@ -31,136 +61,164 @@ async def init_db():
                 storage_message_id INTEGER
             )
         ''')
-        await db.execute('''
+        
+        await conn.execute('''
             CREATE TABLE IF NOT EXISTS ratings (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id SERIAL PRIMARY KEY,
                 video_id INTEGER,
                 user_id INTEGER,
                 rating INTEGER,
                 UNIQUE(video_id, user_id)
             )
         ''')
-        await db.execute('''
+        
+        await conn.execute('''
             CREATE TABLE IF NOT EXISTS broadcast_messages (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id SERIAL PRIMARY KEY,
                 broadcast_id TEXT,
-                user_id INTEGER,
+                user_id BIGINT,
                 message_id INTEGER
             )
         ''')
-        await db.commit()
+        
+        logger.info("✅ Jadvallar tayyor.")
+        
+        # Check if there's any data
+        users_count = await conn.fetchval("SELECT COUNT(*) FROM users")
+        videos_count = await conn.fetchval("SELECT COUNT(*) FROM videos")
+        logger.info(f"📊 Hozirgi holat: {users_count} foydalanuvchi, {videos_count} video.")
 
 async def add_user(telegram_id, username):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        await db.execute('INSERT OR IGNORE INTO users (telegram_id, username) VALUES (?, ?)', (telegram_id, username))
-        await db.commit()
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('INSERT INTO users (telegram_id, username) VALUES ($1, $2) ON CONFLICT (telegram_id) DO NOTHING', telegram_id, username)
 
 async def set_user_language(telegram_id, lang):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        await db.execute('UPDATE users SET language = ? WHERE telegram_id = ?', (lang, telegram_id))
-        await db.commit()
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('UPDATE users SET language = $1 WHERE telegram_id = $2', lang, telegram_id)
 
 async def get_user_language(telegram_id):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        async with db.execute('SELECT language FROM users WHERE telegram_id = ?', (telegram_id,)) as cursor:
-            row = await cursor.fetchone()
-            return row[0] if row else 'uz'
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        row = await conn.fetchrow('SELECT language FROM users WHERE telegram_id = $1', telegram_id)
+        return row['language'] if row else 'uz'
 
 async def get_user_stats(telegram_id):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        async with db.execute('SELECT daily_requests, last_request_date FROM users WHERE telegram_id = ?', (telegram_id,)) as cursor:
-            return await cursor.fetchone()
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        row = await conn.fetchrow('SELECT daily_requests, last_request_date FROM users WHERE telegram_id = $1', telegram_id)
+        if row:
+            return row['daily_requests'], row['last_request_date']
+        return None
 
-async def update_user_requests(telegram_id, count, date):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        await db.execute('UPDATE users SET daily_requests = ?, last_request_date = ? WHERE telegram_id = ?', (count, date, telegram_id))
-        await db.commit()
+async def update_user_requests(telegram_id, count, date_obj):
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('UPDATE users SET daily_requests = $1, last_request_date = $2 WHERE telegram_id = $3', count, date_obj, telegram_id)
 
 async def add_video(code, title, quality, file_id, file_type='video', expires_at=None, storage_channel_id=None, storage_message_id=None):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        await db.execute('''
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('''
             INSERT INTO videos (code, title, quality, file_id, file_type, expires_at, storage_channel_id, storage_message_id) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (code, title, quality, file_id, file_type, expires_at, storage_channel_id, storage_message_id))
-        await db.commit()
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        ''', code, title, quality, file_id, file_type, expires_at, storage_channel_id, storage_message_id)
 
 async def get_video_by_code(code):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        # Filter out expired videos
+    pool = await get_pool()
+    async with pool.acquire() as conn:
         now = datetime.now()
-        async with db.execute('''
+        rows = await conn.fetch('''
             SELECT title, quality, file_id, views_count, id, file_type, storage_channel_id, storage_message_id FROM videos 
-            WHERE code = ? AND (expires_at IS NULL OR expires_at > ?)
-        ''', (code, now)) as cursor:
-            return await cursor.fetchall()
+            WHERE code = $1 AND (expires_at IS NULL OR expires_at > $2)
+        ''', code, now)
+        return [tuple(row) for row in rows]
 
 async def increment_views(video_id):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        await db.execute('UPDATE videos SET views_count = views_count + 1 WHERE id = ?', (video_id,))
-        await db.commit()
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('UPDATE videos SET views_count = views_count + 1 WHERE id = $1', video_id)
 
 async def delete_code(code):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        await db.execute('DELETE FROM videos WHERE code = ?', (code,))
-        await db.commit()
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('DELETE FROM videos WHERE code = $1', code)
 
 async def get_all_codes():
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        async with db.execute('SELECT DISTINCT code, title FROM videos') as cursor:
-            return await cursor.fetchall()
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch('SELECT DISTINCT code, title FROM videos')
+        return [tuple(row) for row in rows]
 
 async def search_videos_by_title(query):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
+    pool = await get_pool()
+    async with pool.acquire() as conn:
         now = datetime.now()
-        async with db.execute('''
+        rows = await conn.fetch('''
             SELECT DISTINCT code, title FROM videos 
-            WHERE title LIKE ? AND (expires_at IS NULL OR expires_at > ?)
-        ''', (f'%{query}%', now)) as cursor:
-            return await cursor.fetchall()
+            WHERE title ILIKE $1 AND (expires_at IS NULL OR expires_at > $2)
+        ''', f'%{query}%', now)
+        return [tuple(row) for row in rows]
 
 async def get_video_by_id(video_id):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        async with db.execute('SELECT file_id, quality, title, views_count, file_type, storage_channel_id, storage_message_id FROM videos WHERE id = ?', (video_id,)) as cursor:
-            return await cursor.fetchone()
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        row = await conn.fetchrow('SELECT file_id, quality, title, views_count, file_type, storage_channel_id, storage_message_id FROM videos WHERE id = $1', video_id)
+        return tuple(row) if row else None
 
 async def get_global_stats():
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        async with db.execute('SELECT COUNT(*) FROM users') as cursor:
-            total_users = (await cursor.fetchone())[0]
-        async with db.execute('SELECT COUNT(*) FROM videos') as cursor:
-            total_videos = (await cursor.fetchone())[0]
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        total_users = await conn.fetchval('SELECT COUNT(*) FROM users')
+        total_videos = await conn.fetchval('SELECT COUNT(*) FROM videos')
         return total_users, total_videos
 
 async def add_rating(video_id, user_id, rating):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        await db.execute('''
-            INSERT OR REPLACE INTO ratings (video_id, user_id, rating)
-            VALUES (?, ?, ?)
-        ''', (video_id, user_id, rating))
-        await db.commit()
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('''
+            INSERT INTO ratings (video_id, user_id, rating)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (video_id, user_id) DO UPDATE SET rating = EXCLUDED.rating
+        ''', video_id, user_id, rating)
 
 async def get_rating_stats(video_id):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        async with db.execute('''
-            SELECT AVG(rating), COUNT(rating) FROM ratings WHERE video_id = ?
-        ''', (video_id,)) as cursor:
-            row = await cursor.fetchone()
-            if row and row[1] > 0:
-                return round(row[0], 1), row[1]
-            return 0, 0
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        row = await conn.fetchrow('''
+            SELECT AVG(rating) as avg, COUNT(rating) as count FROM ratings WHERE video_id = $1
+        ''', video_id)
+        if row and row['count'] > 0:
+            return round(float(row['avg']), 1), row['count']
+        return 0, 0
 
 async def get_all_users():
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        async with db.execute('SELECT telegram_id FROM users') as cursor:
-            rows = await cursor.fetchall()
-            return [row[0] for row in rows]
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch('SELECT telegram_id FROM users')
+        return [row['telegram_id'] for row in rows]
 
 async def save_broadcast_message(broadcast_id, user_id, message_id):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        await db.execute('INSERT INTO broadcast_messages (broadcast_id, user_id, message_id) VALUES (?, ?, ?)', (broadcast_id, user_id, message_id))
-        await db.commit()
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute('INSERT INTO broadcast_messages (broadcast_id, user_id, message_id) VALUES ($1, $2, $3)', broadcast_id, int(user_id), message_id)
 
 async def get_broadcast_messages(broadcast_id):
-    async with aiosqlite.connect(DATABASE_NAME) as db:
-        async with db.execute('SELECT user_id, message_id FROM broadcast_messages WHERE broadcast_id = ?', (broadcast_id,)) as cursor:
-            return await cursor.fetchall()
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch('SELECT user_id, message_id FROM broadcast_messages WHERE broadcast_id = $1', broadcast_id)
+        return [tuple(row) for row in rows]
+
+async def init_db():
+    await init_pg_db()
+
+async def close_db():
+    global pg_pool
+    if pg_pool:
+        await pg_pool.close()
+        logger.info("✅ Database pool closed.")
+
+if __name__ == "__main__":
+    asyncio.run(init_db())
+

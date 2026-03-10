@@ -7,7 +7,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from config import BOT_TOKEN
 from handlers.user import user_router
 from handlers.admin import admin_router
-from database.db import init_db
+from database.db import init_db, close_db
 
 from aiohttp import web
 
@@ -51,6 +51,7 @@ async def main():
         await dp.start_polling(bot)
     finally:
         await bot.session.close()
+        await close_db()
 
 if __name__ == "__main__":
     try:
