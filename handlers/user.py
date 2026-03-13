@@ -167,8 +167,13 @@ async def check_limit(user_id):
     return True
 
 async def check_single_channel(bot: Bot, user_id: int, idx: int, channel: str):
+    # Ma'lumot: Agar channel_id telegramga tegishli bo'lmasa (Instagram va h.k.), tekshirmaymiz
+    ch_id = str(channel)
+    if not (ch_id.startswith('@') or ch_id.startswith('-100')):
+        return None
+        
     try:
-        member = await bot.get_chat_member(chat_id=channel, user_id=user_id)
+        member = await bot.get_chat_member(chat_id=ch_id, user_id=user_id)
         if member.status in ["creator", "administrator", "member", "restricted"]:
             return None
         return (idx, channel)

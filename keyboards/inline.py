@@ -50,14 +50,26 @@ async def get_subscribe_keyboard(lang, bot=None, user_id=None, missing=None):
         missing_ids = [str(ch['channel_id']) for ch in missing]
         results = []
         for ch in db_channels:
-            status = "🔗" if str(ch['channel_id']) in missing_ids else "✅"
+            ch_id = str(ch['channel_id'])
+            # Agar bu telegram kanali bo'lmasa (masalan Instagram link), u "missing" bo'lolmaydi
+            is_telegram = ch_id.startswith('@') or ch_id.startswith('-100')
+            
+            if not is_telegram:
+                status = "🔗" 
+            else:
+                status = "🔗" if ch_id in missing_ids else "✅"
             results.append((status, ch))
     else:
         async def check_member(ch):
+            ch_id = str(ch['channel_id'])
+            # Telegram bo'lmagan linklar uchun tekshiruv shart emas
+            if not (ch_id.startswith('@') or ch_id.startswith('-100')):
+                return "🔗", ch
+                
             if not bot or not user_id:
                 return "✅", ch
             try:
-                member = await bot.get_chat_member(chat_id=ch['channel_id'], user_id=user_id)
+                member = await bot.get_chat_member(chat_id=ch_id, user_id=user_id)
                 if member.status in ["creator", "administrator", "member", "restricted"]:
                     return "✅", ch
                 return "🔗", ch
