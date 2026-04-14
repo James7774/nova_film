@@ -433,10 +433,8 @@
             const index = favorites.indexOf(id);
             if (index > -1) {
                 favorites.splice(index, 1);
-                showToast('Olib tashlandi 🗑️');
             } else {
                 favorites.push(id);
-                showToast('Tanlanganlarga qo\'shildi ❤️');
                 tg.HapticFeedback.impactOccurred('medium');
             }
             localStorage.setItem('fav_movies', JSON.stringify(favorites));
