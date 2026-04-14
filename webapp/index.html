@@ -2,18 +2,26 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Nova Film - Kinolar</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --accent-color: #38bdf8;
-            --text-primary: #f8fafc;
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2035;
+            --bg-card-hover: #1f2847;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --accent-glow: rgba(99, 102, 241, 0.15);
+            --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-muted: #64748b;
+            --border: rgba(255, 255, 255, 0.06);
+            --success: #10b981;
+            --radius: 14px;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         * {
@@ -21,174 +29,440 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
             color: var(--text-primary);
-            overflow-x: hidden;
-            min-height: 100vh;
-            background: radial-gradient(circle at top right, #1e293b, #0f172a);
         }
 
-        .container {
-            padding: 16px;
-            max-width: 600px;
-            margin: 0 auto;
+        .app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            height: 100dvh;
+            max-width: 100%;
+            overflow: hidden;
         }
 
-        header {
-            margin-bottom: 24px;
-            text-align: center;
-            padding-top: 10px;
+        /* ===== HEADER ===== */
+        .header {
+            padding: 16px 16px 0;
+            flex-shrink: 0;
         }
 
-        h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            background: linear-gradient(to right, #38bdf8, #818cf8);
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #818cf8, #6366f1, #a78bfa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
 
-        .search-box {
-            position: sticky;
-            top: 10px;
-            z-index: 100;
-            margin-bottom: 20px;
+        /* ===== SEARCH ===== */
+        .search-wrapper {
+            position: relative;
+            padding: 0 16px 12px;
+            flex-shrink: 0;
         }
 
-        input {
+        .search-icon {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(calc(-50% - 6px));
+            width: 18px;
+            height: 18px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .search-input {
             width: 100%;
-            padding: 14px 20px;
+            padding: 13px 16px 13px 46px;
             border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            color: white;
-            font-size: 16px;
+            border: 1.5px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
             outline: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.25s ease;
         }
 
-        input:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
-            transform: translateY(-1px);
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px 10px;
+            flex-shrink: 0;
+        }
+
+        .stats-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stats-icon {
+            width: 14px;
+            height: 14px;
+            color: var(--accent-light);
+        }
+
+        /* ===== MOVIE LIST ===== */
+        .movie-list-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0 16px;
+            padding-bottom: calc(16px + var(--safe-bottom));
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .movie-list-container::-webkit-scrollbar {
+            display: none;
         }
 
         .movie-list {
-            display: grid;
-            gap: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
+        /* ===== MOVIE CARD ===== */
         .movie-card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(8px);
+            gap: 12px;
             transition: all 0.2s ease;
             cursor: pointer;
-            animation: fadeIn 0.5s ease-out forwards;
+            animation: slideUp 0.4s ease forwards;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .movie-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent);
+            border-radius: 0 2px 2px 0;
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
 
         .movie-card:active {
             transform: scale(0.98);
-            background: rgba(56, 189, 248, 0.1);
+            background: var(--bg-card-hover);
+        }
+
+        .movie-card:active::before {
+            opacity: 1;
+        }
+
+        .movie-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--accent-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .movie-number svg {
+            width: 18px;
+            height: 18px;
+            color: var(--accent-light);
         }
 
         .movie-info {
             flex: 1;
+            min-width: 0;
         }
 
         .movie-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 4px;
+            line-height: 1.4;
+            color: var(--text-primary);
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            word-break: break-word;
+        }
+
+        .movie-code-row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 4px;
+        }
+
+        .code-icon {
+            width: 12px;
+            height: 12px;
+            color: var(--text-muted);
+            flex-shrink: 0;
         }
 
         .movie-code {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-secondary);
-            font-family: monospace;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: inline-block;
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
         }
 
-        .copy-btn {
-            background: var(--accent-color);
-            color: #000;
+        .send-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            background: var(--accent);
+            color: #fff;
             border: none;
-            border-radius: 8px;
-            padding: 8px 12px;
+            border-radius: 10px;
+            padding: 9px 14px;
             font-size: 12px;
             font-weight: 700;
-            margin-left: 12px;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            flex-shrink: 0;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
         }
 
+        .send-btn:active {
+            transform: scale(0.95);
+            background: #4f46e5;
+        }
+
+        .send-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* ===== LOADER ===== */
         .loader {
             display: none;
-            text-align: center;
-            padding: 20px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            gap: 16px;
+        }
+
+        .loader.active {
+            display: flex;
         }
 
         .loader-spinner {
-            width: 30px;
-            height: 30px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top-color: var(--accent-color);
+            width: 36px;
+            height: 36px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            display: inline-block;
+            animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .loader-text {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
         }
 
+        /* ===== EMPTY STATE ===== */
         .empty-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 24px;
+            gap: 12px;
             text-align: center;
-            padding: 40px 20px;
+        }
+
+        .empty-state.active {
+            display: flex;
+        }
+
+        .empty-icon {
+            width: 48px;
+            height: 48px;
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 16px;
+            font-weight: 600;
             color: var(--text-secondary);
+        }
+
+        .empty-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: calc(20px + var(--safe-bottom));
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--success);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Nova Film</h1>
-        </header>
-
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Kino nomini yozing..." autocomplete="off">
+    <div class="app">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-top">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #818cf8">
+                    <rect x="2" y="4" width="20" height="16" rx="3" />
+                    <path d="M10 9l5 3-5 3V9z" fill="#818cf8" stroke="none"/>
+                </svg>
+                <span class="header-title">Nova Film</span>
+            </div>
         </div>
 
-        <div id="loader" class="loader">
+        <!-- Search -->
+        <div class="search-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <circle cx="11" cy="11" r="7"/>
+                <path d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input class="search-input" type="text" id="searchInput" placeholder="Kino nomi yoki kodini yozing..." autocomplete="off">
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-bar">
+            <span class="stats-text" id="statsText">
+                <svg class="stats-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                </svg>
+                Yuklanmoqda...
+            </span>
+        </div>
+
+        <!-- Loader -->
+        <div class="loader" id="loader">
             <div class="loader-spinner"></div>
+            <span class="loader-text">Kinolar yuklanmoqda...</span>
         </div>
 
-        <div id="movieList" class="movie-list">
-            <!-- Kinolar shu yerga tushadi -->
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState">
+            <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+                <path d="M8 11h6"/>
+            </svg>
+            <span class="empty-title">Hech narsa topilmadi</span>
+            <span class="empty-subtitle">Qidiruv so'zini o'zgartiring</span>
         </div>
 
-        <div id="emptyState" class="empty-state" style="display: none;">
-            Kino topilmadi 😕
+        <!-- Movie List -->
+        <div class="movie-list-container">
+            <div class="movie-list" id="movieList"></div>
         </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <path d="M9 12l2 2 4-4"/>
+            <circle cx="12" cy="12" r="9"/>
+        </svg>
+        <span id="toastText">Kod yuborildi!</span>
     </div>
 
     <script>
@@ -196,66 +470,144 @@
         tg.expand();
         tg.ready();
 
+        // Telegram theme adaptation
+        if (tg.themeParams) {
+            const root = document.documentElement.style;
+            if (tg.themeParams.bg_color) {
+                root.setProperty('--bg-primary', tg.themeParams.bg_color);
+            }
+            if (tg.themeParams.secondary_bg_color) {
+                root.setProperty('--bg-secondary', tg.themeParams.secondary_bg_color);
+            }
+        }
+
         const searchInput = document.getElementById('searchInput');
         const movieList = document.getElementById('movieList');
         const loader = document.getElementById('loader');
         const emptyState = document.getElementById('emptyState');
+        const statsText = document.getElementById('statsText');
+        const toast = document.getElementById('toast');
+        const toastText = document.getElementById('toastText');
 
         let allMovies = [];
 
-        // API'dan kinolarni olish
+        // Film icon SVG template
+        const filmIconSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M2 8h20M2 16h20M8 4v16M16 4v16"/>
+        </svg>`;
+
+        // Code icon SVG
+        const codeIconSVG = `<svg class="code-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+        </svg>`;
+
+        // Send icon SVG
+        const sendIconSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+        </svg>`;
+
+        // Stats icon SVG
+        const statsIconSVG = `<svg class="stats-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 12l2 2 4-4"/>
+        </svg>`;
+
         async function fetchMovies() {
-            loader.style.display = 'block';
+            loader.classList.add('active');
+            emptyState.classList.remove('active');
+            movieList.innerHTML = '';
+
             try {
                 const response = await fetch('/api/movies');
+                if (!response.ok) throw new Error('Server xatoligi');
                 const data = await response.json();
                 allMovies = data;
+                statsText.innerHTML = `${statsIconSVG} Jami: ${allMovies.length} ta kino`;
                 renderMovies(allMovies);
             } catch (error) {
                 console.error('Xatolik:', error);
+                statsText.innerHTML = `${statsIconSVG} Yuklanmadi, qayta urinib ko'ring`;
             } finally {
-                loader.style.display = 'none';
+                loader.classList.remove('active');
             }
         }
 
         function renderMovies(movies) {
             movieList.innerHTML = '';
+            emptyState.classList.remove('active');
+
             if (movies.length === 0) {
-                emptyState.style.display = 'block';
+                emptyState.classList.add('active');
                 return;
             }
-            emptyState.style.display = 'none';
 
-            movies.forEach(movie => {
+            movies.forEach((movie, index) => {
                 const card = document.createElement('div');
                 card.className = 'movie-card';
+                card.style.animationDelay = `${Math.min(index * 30, 300)}ms`;
+
                 card.innerHTML = `
+                    <div class="movie-number">${filmIconSVG}</div>
                     <div class="movie-info">
-                        <div class="movie-title">${movie.title}</div>
-                        <div class="movie-code">Kod: ${movie.code}</div>
+                        <div class="movie-title">${escapeHtml(movie.title)}</div>
+                        <div class="movie-code-row">
+                            ${codeIconSVG}
+                            <span class="movie-code">Kod: ${escapeHtml(movie.code)}</span>
+                        </div>
                     </div>
-                    <button class="copy-btn">YUBORISH</button>
+                    <button class="send-btn" onclick="event.stopPropagation(); sendCode('${escapeHtml(movie.code)}')">
+                        ${sendIconSVG}
+                        Olish
+                    </button>
                 `;
-                card.onclick = () => sendCode(movie.code);
+
+                card.addEventListener('click', () => sendCode(movie.code));
                 movieList.appendChild(card);
             });
         }
 
-        function sendCode(code) {
-            tg.sendData(code);
-            tg.close();
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
-        // Qidiruv funksiyasi
-        searchInput.oninput = (e) => {
-            const query = e.target.value.toLowerCase();
-            const filtered = allMovies.filter(m => 
-                m.title.toLowerCase().includes(query) || 
-                m.code.toString().includes(query)
-            );
-            renderMovies(filtered);
-        };
+        function sendCode(code) {
+            try {
+                tg.sendData(code);
+            } catch (e) {
+                showToast('Kod: ' + code);
+            }
+        }
 
+        function showToast(text) {
+            toastText.textContent = text;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Search
+        let searchTimeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const query = e.target.value.toLowerCase().trim();
+                if (query === '') {
+                    renderMovies(allMovies);
+                    statsText.innerHTML = `${statsIconSVG} Jami: ${allMovies.length} ta kino`;
+                    return;
+                }
+                const filtered = allMovies.filter(m =>
+                    (m.title && m.title.toLowerCase().includes(query)) ||
+                    (m.code && m.code.toString().includes(query))
+                );
+                renderMovies(filtered);
+                statsText.innerHTML = `${statsIconSVG} Natija: ${filtered.length} / ${allMovies.length}`;
+            }, 200);
+        });
+
+        // Init
         fetchMovies();
     </script>
 </body>
