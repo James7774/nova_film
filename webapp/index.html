@@ -573,11 +573,34 @@
             return div.innerHTML;
         }
 
-        function sendCode(code) {
+        async function sendCode(code) {
+            const user = tg.initDataUnsafe.user;
+            if (!user) {
+                showToast('Faqat Telegram bot ichida ishlaydi');
+                return;
+            }
+
             try {
-                tg.sendData(code);
+                const response = await fetch('/api/send_movie', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: user.id,
+                        code: code
+                    })
+                });
+                
+                if (response.ok) {
+                    showToast('Kino botga yuborildi! ✅');
+                    setTimeout(() => {
+                        tg.close();
+                    }, 500);
+                } else {
+                    showToast('Xatolik yuz berdi ❌');
+                }
             } catch (e) {
-                showToast('Kod: ' + code);
+                console.error(e);
+                showToast('Tarmoq xatosi ❌');
             }
         }
 
