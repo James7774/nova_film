@@ -12,14 +12,13 @@
             --bg-secondary: #111827;
             --bg-card: #1a2035;
             --bg-card-hover: #1f2847;
-            --accent: #6366f1;
+            --accent: #625df5;
             --accent-light: #818cf8;
-            --accent-glow: rgba(99, 102, 241, 0.15);
+            --accent-glow: rgba(98, 93, 245, 0.25);
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
             --border: rgba(255, 255, 255, 0.06);
-            --success: #10b981;
             --favorite: #ff3b30;
             --radius: 14px;
             --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -129,16 +128,18 @@
             overflow-y: auto;
             padding: 4px 14px calc(var(--nav-height) + 15px + var(--safe-bottom));
             -webkit-overflow-scrolling: touch;
+            position: relative;
         }
 
-        .main-content::-webkit-scrollbar {
+        .list-container {
             display: none;
-        }
-
-        .movie-list {
-            display: flex;
             flex-direction: column;
             gap: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .list-container.active {
+            display: flex;
         }
 
         /* ===== MOVIE CARD ===== */
@@ -151,7 +152,6 @@
             align-items: center;
             gap: 10px;
             transition: all 0.15s ease;
-            animation: slideUp 0.3s ease forwards;
         }
 
         .movie-card:active {
@@ -204,9 +204,9 @@
         }
 
         .fav-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 9px;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border);
             display: flex;
@@ -226,7 +226,6 @@
             color: var(--favorite);
             background: rgba(255, 59, 48, 0.12);
             border-color: rgba(255, 59, 48, 0.25);
-            transform: scale(1.05);
         }
 
         .fav-btn.active svg {
@@ -234,26 +233,48 @@
             stroke: var(--favorite);
         }
 
+        /* DAXSHAT OLISH BUTTON */
         .get-btn {
-            height: 36px;
-            padding: 0 12px;
-            border-radius: 9px;
-            background: var(--accent);
+            height: 38px;
+            padding: 0 16px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #625df5, #4f46e5);
             color: #fff;
             border: none;
             font-size: 11px;
-            font-weight: 800;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.8px;
             display: flex;
             align-items: center;
-            gap: 5px;
-            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.25);
+            gap: 6px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            transition: all 0.2s ease;
+        }
+
+        .get-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .get-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px var(--accent-glow);
         }
 
         .get-btn svg {
             width: 14px;
             height: 14px;
+            filter: drop-shadow(0 0 2px rgba(255,255,255,0.5));
         }
 
         /* ===== BOTTOM NAV ===== */
@@ -282,7 +303,6 @@
             font-size: 10px;
             font-weight: 600;
             transition: all 0.25s ease;
-            position: relative;
         }
 
         .nav-item.active {
@@ -304,19 +324,19 @@
             bottom: calc(var(--nav-height) + 15px + var(--safe-bottom));
             left: 50%;
             transform: translateX(-50%) translateY(30px);
-            background: rgba(30, 41, 59, 0.98);
+            background: rgba(30, 41, 59, 1);
             border: 1px solid var(--border);
             color: #fff;
             padding: 9px 18px;
             border-radius: 10px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             z-index: 1000;
             transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.8);
             white-space: nowrap;
             opacity: 0;
             visibility: hidden;
@@ -327,12 +347,11 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
             visibility: visible;
-            pointer-events: auto;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
@@ -356,15 +375,21 @@
             </div>
         </div>
 
-        <!-- Main Content -->
+        <!-- Main Content (Dual List) -->
         <div class="main-content">
-            <div id="emptyState" class="empty-state" style="display:none; flex-direction:column; align-items:center; justify-content:center; padding:70px 30px; text-align:center; gap:12px;">
-                <svg style="width:50px; height:50px; color:var(--text-muted); opacity:0.3;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z"/>
-                </svg>
-                <div id="emptyMessage" style="font-size:14px; color:var(--text-secondary); font-weight:500;">Yuklanmoqda...</div>
+            <!-- Asosiy ro'yxat -->
+            <div id="homeList" class="list-container active"></div>
+            
+            <!-- Sevimlilar ro'yxati -->
+            <div id="favsList" class="list-container">
+                <div id="emptyFavs" style="display:none; flex-direction:column; align-items:center; justify-content:center; padding:70px 30px; text-align:center; gap:12px;">
+                    <svg style="width:50px; height:50px; color:var(--text-muted); opacity:0.3;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z"/>
+                    </svg>
+                    <div style="font-size:14px; color:var(--text-secondary); font-weight:500;">Tanlanganlar bo'sh ✨</div>
+                </div>
+                <div id="favsContent" style="display:flex; flex-direction:column; gap:8px;"></div>
             </div>
-            <div class="movie-list" id="movieList"></div>
         </div>
 
         <!-- Bottom Navigation -->
@@ -393,12 +418,12 @@
         tg.expand();
         tg.ready();
 
-        const movieList = document.getElementById('movieList');
+        const homeList = document.getElementById('homeList');
+        const favsList = document.getElementById('favsList');
+        const favsContent = document.getElementById('favsContent');
+        const emptyFavs = document.getElementById('emptyFavs');
         const searchInput = document.getElementById('searchInput');
-        const emptyState = document.getElementById('emptyState');
-        const emptyMessage = document.getElementById('emptyMessage');
         const pageTitle = document.getElementById('pageTitle');
-        const appHeader = document.getElementById('appHeader');
         
         let allMovies = [];
         let favorites = JSON.parse(localStorage.getItem('fav_movies') || '[]');
@@ -413,26 +438,33 @@
             try {
                 const response = await fetch('/api/movies');
                 allMovies = await response.json();
-                render();
+                renderAll();
             } catch (error) {
-                emptyMessage.textContent = "Bog'lanishda xatolik yuz berdi";
-                emptyState.style.display = 'flex';
+                console.error("Fetch error:", error);
             }
         }
 
         function switchTab(tab) {
+            if (currentTab === tab) return;
             currentTab = tab;
+            
             document.getElementById('navHome').classList.toggle('active', tab === 'home');
             document.getElementById('navFavs').classList.toggle('active', tab === 'favs');
             
             if (tab === 'favs') {
                 pageTitle.textContent = "Sevimlilar";
-                document.querySelector('.search-wrapper').style.display = "none";
+                document.querySelector('.search-wrapper').style.opacity = "0";
+                document.querySelector('.search-wrapper').style.pointerEvents = "none";
+                homeList.classList.remove('active');
+                favsList.classList.add('active');
+                renderFavs();
             } else {
                 pageTitle.textContent = "Nova Film";
-                document.querySelector('.search-wrapper').style.display = "block";
+                document.querySelector('.search-wrapper').style.opacity = "1";
+                document.querySelector('.search-wrapper').style.pointerEvents = "auto";
+                favsList.classList.remove('active');
+                homeList.classList.add('active');
             }
-            render();
         }
 
         function toggleFavorite(id, btnElement) {
@@ -440,11 +472,17 @@
             if (index > -1) {
                 favorites.splice(index, 1);
                 if (btnElement) btnElement.classList.remove('active');
-                if (currentTab === 'favs') render(); // Sevimlilar bo'limida bo'lsa darhol o'chirsin
+                if (currentTab === 'favs') renderFavs();
+                // Update corresponding button in home list if it exists
+                const mainBtn = homeList.querySelector(`.fav-btn[data-code="${id}"]`);
+                if (mainBtn) mainBtn.classList.remove('active');
             } else {
                 favorites.push(id);
                 if (btnElement) btnElement.classList.add('active');
                 tg.HapticFeedback.impactOccurred('medium');
+                // Update corresponding button in home list if it exists
+                const mainBtn = homeList.querySelector(`.fav-btn[data-code="${id}"]`);
+                if (mainBtn) mainBtn.classList.add('active');
             }
             localStorage.setItem('fav_movies', JSON.stringify(favorites));
         }
@@ -455,7 +493,7 @@
                 showToast('Kod nusxalandi! ✍️ ( ' + code + ' )');
                 tg.HapticFeedback.notificationOccurred('success');
             } catch (err) {
-                showToast('Xatolik: ' + code);
+                showToast('Xatolik yuz berdi');
             }
         }
 
@@ -463,65 +501,59 @@
             const toast = document.getElementById('toast');
             document.getElementById('toastText').textContent = text;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 1800);
+            setTimeout(() => toast.classList.remove('show'), 1500);
         }
 
-        function render() {
-            movieList.innerHTML = '';
-            emptyState.style.display = 'none';
-            
+        function createCard(movie) {
+            const isFav = favorites.includes(movie.code.toString());
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            card.innerHTML = `
+                <div class="movie-info">
+                    <div class="movie-title">${movie.title}</div>
+                    <div class="movie-meta">
+                        <span class="meta-item">${filmIcon} HD 1080p</span>
+                        <span class="meta-item">${codeIcon} Kod: ${movie.code}</span>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <div class="fav-btn ${isFav ? 'active' : ''}" data-code="${movie.code}" onclick="event.stopPropagation(); toggleFavorite('${movie.code}', this)">
+                        ${heartIcon}
+                    </div>
+                    <button class="get-btn" onclick="event.stopPropagation(); sendCode('${movie.code}')">
+                        ${sendIcon} OLISH
+                    </button>
+                </div>
+            `;
+            card.onclick = () => sendCode(movie.code);
+            return card;
+        }
+
+        function renderAll() {
+            homeList.innerHTML = '';
             const query = searchInput.value.toLowerCase().trim();
-            let moviesToShow = allMovies;
-
-            if (currentTab === 'favs') {
-                moviesToShow = allMovies.filter(m => favorites.includes(m.code.toString()));
-                if (moviesToShow.length === 0) {
-                    emptyMessage.innerHTML = "Tanlanganlar bo'sh ✨<br><span style='font-size:11px; font-weight:400; opacity:0.6'>Kinolarga ❤️ bosing</span>";
-                    emptyState.style.display = 'flex';
-                    return;
-                }
-            } else if (query) {
-                moviesToShow = allMovies.filter(m => 
-                    m.title.toLowerCase().includes(query) || m.code.toString().includes(query)
-                );
-            }
-
-            if (moviesToShow.length === 0 && query) {
-                emptyMessage.textContent = "Hech narsa topilmadi";
-                emptyState.style.display = 'flex';
-                return;
-            }
-
-            moviesToShow.forEach((movie, i) => {
-                const isFav = favorites.includes(movie.code.toString());
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.style.animationDelay = `${Math.min(i * 20, 200)}ms`;
-                
-                card.innerHTML = `
-                    <div class="movie-info">
-                        <div class="movie-title">${movie.title}</div>
-                        <div class="movie-meta">
-                            <span class="meta-item">${filmIcon} HD 1080p</span>
-                            <span class="meta-item">${codeIcon} Kod: ${movie.code}</span>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <div class="fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${movie.code}', this)">
-                            ${heartIcon}
-                        </div>
-                        <button class="get-btn" onclick="event.stopPropagation(); sendCode('${movie.code}')">
-                            ${sendIcon} OLISH
-                        </button>
-                    </div>
-                `;
-                
-                card.onclick = () => sendCode(movie.code);
-                movieList.appendChild(card);
+            const moviesToShow = query ? allMovies.filter(m => m.title.toLowerCase().includes(query) || m.code.toString().includes(query)) : allMovies;
+            
+            moviesToShow.forEach(movie => {
+                homeList.appendChild(createCard(movie));
             });
         }
 
-        searchInput.addEventListener('input', render);
+        function renderFavs() {
+            favsContent.innerHTML = '';
+            const favMovies = allMovies.filter(m => favorites.includes(m.code.toString()));
+            
+            if (favMovies.length === 0) {
+                emptyFavs.style.display = 'flex';
+            } else {
+                emptyFavs.style.display = 'none';
+                favMovies.forEach(movie => {
+                    favsContent.appendChild(createCard(movie));
+                });
+            }
+        }
+
+        searchInput.addEventListener('input', renderAll);
         fetchMovies();
     </script>
 </body>
