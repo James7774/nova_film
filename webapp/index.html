@@ -435,16 +435,18 @@
             render();
         }
 
-        function toggleFavorite(id) {
+        function toggleFavorite(id, btnElement) {
             const index = favorites.indexOf(id);
             if (index > -1) {
                 favorites.splice(index, 1);
+                if (btnElement) btnElement.classList.remove('active');
+                if (currentTab === 'favs') render(); // Sevimlilar bo'limida bo'lsa darhol o'chirsin
             } else {
                 favorites.push(id);
+                if (btnElement) btnElement.classList.add('active');
                 tg.HapticFeedback.impactOccurred('medium');
             }
             localStorage.setItem('fav_movies', JSON.stringify(favorites));
-            render();
         }
 
         async function sendCode(code) {
@@ -505,7 +507,7 @@
                         </div>
                     </div>
                     <div class="card-actions">
-                        <div class="fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${movie.code}')">
+                        <div class="fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${movie.code}', this)">
                             ${heartIcon}
                         </div>
                         <button class="get-btn" onclick="event.stopPropagation(); sendCode('${movie.code}')">

@@ -48,9 +48,8 @@ async def main():
     # Set Menu Button (Web App)
     from aiogram.types import WebAppInfo, MenuButtonWebApp
     webapp_url = os.getenv("WEBAPP_URL", "https://vaqtinchalik-url.uz") # Replace with your real URL
-    try:
         await bot.set_chat_menu_button(
-            menu_button=MenuButtonWebApp(text="Kinolarni ko'rish", web_app=WebAppInfo(url=webapp_url))
+            menu_button=MenuButtonWebApp(text="Kino kodlari", web_app=WebAppInfo(url=webapp_url))
         )
         logger.info(f"✅ Menu button set to: {webapp_url}")
     except Exception as e:
