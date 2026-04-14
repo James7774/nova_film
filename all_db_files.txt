@@ -1,0 +1,718 @@
+ Volume in drive C is Windows 11
+ Volume Serial Number is 0AD4-0680
+
+ Directory of C:\Users\user\.affinity\Affinity\3.0
+
+03/10/2026  03:12 PM            12,288 sess.db
+               1 File(s)         12,288 bytes
+
+ Directory of C:\Users\user\.affinity\Affinity\3.0\EBWebView\Default
+
+11/13/2025  12:54 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\.affinity\Affinity\3.0\EBWebView\Default\EdgeJourneys
+
+11/13/2025  12:55 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\.affinity\Common\3.0
+
+03/10/2026  03:12 PM           167,936 sp.db
+               1 File(s)        167,936 bytes
+
+ Directory of C:\Users\user\.gemini\antigravity-browser-profile
+
+03/05/2026  08:37 AM            69,632 first_party_sets.db
+               1 File(s)         69,632 bytes
+
+ Directory of C:\Users\user\.gemini\antigravity-browser-profile\Default
+
+01/21/2026  12:11 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\.gemini\antigravity-browser-profile\GPUPersistentCache\DawnGraphiteCache\FULD65QMIBF674JQPFHMMYA5PH6ADCJS
+
+01/27/2026  01:02 PM         1,822,720 cache.db
+               1 File(s)      1,822,720 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\ACPLocal.Next\07E4A8EB-FDC4-4A32-A297-285075286D63\dcx\1\v1
+
+03/10/2026  12:04 PM            12,288 acpl-json.db
+03/10/2026  12:04 PM           131,072 acpl.db
+               2 File(s)        143,360 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\ACPLocal.Next\CommonDB\1
+
+03/10/2026  04:57 AM            73,728 acplnext-common.db
+               1 File(s)         73,728 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\ACPLocal.Next\GUDE
+
+01/05/2026  02:43 PM            45,056 sqliteResumeTransfer.db
+               1 File(s)         45,056 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\AdobeSync\CoreSync
+
+03/09/2026  11:54 AM           184,320 9ec66dc877d07fc2e4e60674473a283f.db
+01/05/2026  02:40 PM            12,288 CCCg_a5a94add1efb8f7012d938cfb3de6e60.db
+03/10/2026  02:29 PM            12,288 CCCu_f4ae1be4fd863230cda54a6c5c83941b.db
+01/05/2026  02:40 PM            36,864 coresync.db
+               4 File(s)        245,760 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\AdobeSync\CoreSync\cloudnative\DCX\1c3ab52847d53cff53dc94542c9d9613\1\v1
+
+03/10/2026  03:02 PM            12,288 acpl-json.db
+03/10/2026  03:02 PM           163,840 acpl.db
+               2 File(s)        176,128 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\AdobeSync\CoreSync\CLOUDNATIVEGUDE
+
+01/05/2026  02:40 PM            45,056 sqliteResumeTransfer.db
+               1 File(s)         45,056 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\AdobeSync\CoreSync\GUDE
+
+01/05/2026  02:40 PM            45,056 sqliteResumeTransfer.db
+               1 File(s)         45,056 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\OOBE
+
+03/10/2026  02:36 PM            98,304 ANEData.db
+02/05/2026  12:05 PM            45,056 filesync.db
+01/05/2026  02:39 PM            28,672 opm.db
+               3 File(s)        172,032 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\webview2\Illustrator.exe\EBWebView\Default
+
+01/05/2026  02:35 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\webview2\Illustrator.exe\EBWebView\Default\EdgeJourneys
+
+01/05/2026  02:41 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\webview2\Illustrator_Set-Up_7875.exe\EBWebView\Default
+
+01/05/2026  02:33 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Adobe\webview2\Illustrator_Set-Up_7875.exe\EBWebView\Default\EdgeJourneys
+
+01/05/2026  02:34 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\CapCut\User Data\Cache\Bytesync
+
+06/10/2025  01:51 PM             4,096 sync_sdk.db
+               1 File(s)          4,096 bytes
+
+ Directory of C:\Users\user\AppData\Local\CapCut\User Data\Cache\ILASDKDB
+
+06/02/2025  09:45 AM            28,672 cloudsearch.db
+01/07/2026  07:05 PM           110,592 mediasearch.db
+01/07/2026  07:05 PM           225,280 scan.db
+               3 File(s)        364,544 bytes
+
+ Directory of C:\Users\user\AppData\Local\CapCut\User Data\Cache\ILASDKDB\CombineSearch
+
+06/02/2025  09:45 AM            69,632 mediasearch.db
+               1 File(s)         69,632 bytes
+
+ Directory of C:\Users\user\AppData\Local\CapCut\User Data\Cache\ressdk_db
+
+07/15/2025  10:01 PM            12,288 rp_master.db
+               1 File(s)         12,288 bytes
+
+ Directory of C:\Users\user\AppData\Local\CapCut\User Data\Cache\ressdk_db\12890984555398814817
+
+01/07/2026  06:58 PM        45,658,112 rp.db
+               1 File(s)     45,658,112 bytes
+
+ Directory of C:\Users\user\AppData\Local\CapCut\User Data\Cache\ressdk_db\15012159627016831685
+
+07/15/2025  10:02 PM             4,096 rp.db
+               1 File(s)          4,096 bytes
+
+ Directory of C:\Users\user\AppData\Local\CapCut\User Data\Cache\ressdk_db\174594919746533298
+
+06/02/2025  09:45 AM        22,188,032 rp.db
+               1 File(s)     22,188,032 bytes
+
+ Directory of C:\Users\user\AppData\Local\CapCut\User Data\Tracking
+
+01/07/2026  08:04 PM         2,437,120 tracking_v2.db
+               1 File(s)      2,437,120 bytes
+
+ Directory of C:\Users\user\AppData\Local\com.seelen.seelen-ui\disablegpu\EBWebView\Default
+
+01/19/2026  05:15 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\com.seelen.seelen-ui\disablegpu\EBWebView\Default\EdgeJourneys
+
+01/19/2026  05:15 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\com.seelen.seelen-ui\EBWebView\Default
+
+01/19/2026  05:15 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\com.seelen.seelen-ui\EBWebView\Default\EdgeJourneys
+
+01/19/2026  05:17 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\ConnectedDevicesPlatform\1715bcd568157609
+
+03/09/2026  12:03 PM         5,947,392 ActivitiesCache.db
+               1 File(s)      5,947,392 bytes
+
+ Directory of C:\Users\user\AppData\Local\gg.hydralauncher.installer\EBWebView\Default
+
+02/18/2026  11:55 AM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\gg.hydralauncher.installer\EBWebView\Default\EdgeJourneys
+
+02/18/2026  11:58 AM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\Google\AndroidStudio2025.2.3
+
+03/09/2026  10:47 PM           972,988 .deploy_cache.db
+03/05/2026  10:00 PM         5,369,856 .dex_cache.db
+03/09/2026  10:46 PM         2,953,216 icon-cache-v1.db
+               3 File(s)      9,296,060 bytes
+
+ Directory of C:\Users\user\AppData\Local\Google\Chrome\User Data
+
+03/10/2026  01:31 PM            90,112 first_party_sets.db
+               1 File(s)         90,112 bytes
+
+ Directory of C:\Users\user\AppData\Local\Google\Chrome\User Data\Guest Profile
+
+12/08/2025  07:30 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Google\Chrome\User Data\Profile 14
+
+01/02/2026  01:48 PM           163,840 CdmStorage.db
+02/26/2026  03:07 PM            16,384 heavy_ad_intervention_opt_out.db
+               2 File(s)        180,224 bytes
+
+ Directory of C:\Users\user\AppData\Local\Google\Chrome\User Data\Profile 16
+
+03/05/2026  02:10 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Google\Chrome\User Data\Profile 9
+
+12/23/2025  07:23 PM           163,840 CdmStorage.db
+12/16/2025  07:25 PM            16,384 heavy_ad_intervention_opt_out.db
+               2 File(s)        180,224 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\AppActions
+
+03/10/2026  01:51 PM           155,648 ActionFXCache.db
+               1 File(s)        155,648 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Edge\User Data
+
+03/09/2026  10:25 PM            90,112 first_party_sets.db
+               1 File(s)         90,112 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Edge\User Data\Default
+
+06/17/2025  04:58 PM            16,384 heavy_ad_intervention_opt_out.db
+03/09/2026  10:25 PM        24,936,448 load_statistics.db
+               2 File(s)     24,952,832 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Edge\User Data\Default\Asset Store
+
+03/09/2026  10:35 PM    <DIR>          assets.db
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Edge\User Data\Default\EdgeCoupons
+
+03/09/2026  10:25 PM    <DIR>          coupons_data.db
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Edge\User Data\Default\EdgeEDrop
+
+06/19/2025  11:41 AM            32,768 EdgeEDropSQLite.db
+               1 File(s)         32,768 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Edge\User Data\Default\EdgeHubAppUsage
+
+03/09/2026  10:25 PM            49,152 EdgeHubAppUsageSQLite.db
+               1 File(s)         49,152 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Edge\User Data\Default\EdgeJourneys
+
+02/19/2026  04:43 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Edge\User Data\Default\EntityExtraction
+
+03/09/2026  10:25 PM    <DIR>          EntityExtractionAssetStore.db
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Office\OTele
+
+06/10/2025  11:42 AM             4,096 officeclicktorun.exe.db
+               1 File(s)          4,096 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\OneDrive\EBWebView\Default
+
+02/05/2026  10:44 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\OneDrive\EBWebView\Default\EdgeJourneys
+
+02/05/2026  10:50 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\OneDrive\ListSync\Business1\settings
+
+06/17/2025  05:04 PM            32,768 Microsoft.CDN.db
+06/17/2025  05:04 PM            61,440 Microsoft.FilesOnDemand.db
+11/01/2025  05:00 PM           147,456 Microsoft.FileUsageSync.db
+03/04/2026  08:18 AM           102,400 Microsoft.ListSync.db
+02/17/2026  01:30 PM            16,384 Microsoft.ListSync.Settings.db
+               5 File(s)        360,448 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\OneDrive\ListSync\Common\settings
+
+10/29/2025  08:27 AM            32,768 Microsoft.CDN.db
+09/03/2025  08:59 AM           139,264 Microsoft.LocalContent.db
+               2 File(s)        172,032 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\OneDrive\settings
+
+06/17/2025  05:04 PM            12,288 CxP.db
+06/20/2025  01:15 PM            28,672 FileSyncFSCache.db
+               2 File(s)         40,960 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\OneDrive\settings\.Dbfs.dbfs_bootstrap
+
+07/01/2025  08:02 PM            73,728 dbfs.db
+               1 File(s)         73,728 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\OneDrive\settings\Personal
+
+08/24/2025  08:59 AM            12,288 CxP.db
+12/09/2025  08:07 PM            20,480 KFM.db
+02/06/2026  08:52 AM        18,849,792 OCSI.db
+02/06/2026  08:52 AM           684,032 SafeDelete.db
+06/17/2025  05:04 PM            20,480 SettingsDatabase.db
+02/06/2026  09:00 AM        31,506,432 SyncEngineDatabase.db
+02/06/2026  01:28 PM         1,658,880 UXDatabase.db
+               7 File(s)     52,752,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\vscode-cpptools\adfe5fe79f845d81d229428687196b3a
+
+11/29/2025  03:32 PM           622,592 .BROWSE.VC.DB
+               1 File(s)        622,592 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\vscode-cpptools\deec38718855ecf0a38e9300717e9645
+
+01/17/2026  09:09 PM           606,208 .BROWSE.VC.DB
+               1 File(s)        606,208 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Windows\Caches
+
+06/17/2025  05:19 PM            16,384 cversions.1.db
+06/17/2025  04:56 PM            16,384 cversions.3.db
+03/10/2026  01:30 PM           436,664 {384756BA-B905-4D30-88C9-B63C603DA134}.3.ver0x0000000000000001.db
+03/10/2026  02:30 PM           107,328 {3DA71D5A-20CC-432F-A115-DFE92379E91F}.3.ver0x000000000000037e.db
+03/05/2026  07:08 PM            93,936 {AFBF9F1A-8EE8-4C77-AF34-C647E37CA0D9}.1.ver0x00000000000000d8.db
+               5 File(s)        670,696 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Windows\Explorer
+
+01/07/2026  07:40 PM                24 iconcache_1280.db
+03/05/2026  02:15 PM        15,728,640 iconcache_16.db
+01/07/2026  07:40 PM                24 iconcache_1920.db
+03/04/2026  11:49 AM        15,728,640 iconcache_256.db
+01/07/2026  07:40 PM                24 iconcache_2560.db
+03/06/2026  11:11 PM        24,117,248 iconcache_32.db
+03/10/2026  01:44 PM        45,088,768 iconcache_48.db
+01/07/2026  07:40 PM                24 iconcache_768.db
+01/07/2026  07:40 PM                24 iconcache_96.db
+01/07/2026  07:40 PM                24 iconcache_custom_stream.db
+01/07/2026  07:40 PM                24 iconcache_exif.db
+02/06/2026  07:05 PM           930,960 iconcache_idx.db
+01/07/2026  07:40 PM                24 iconcache_sr.db
+01/07/2026  07:40 PM                24 iconcache_wide.db
+01/07/2026  07:40 PM                24 iconcache_wide_alternate.db
+02/19/2026  02:07 PM        36,700,160 thumbcache_1280.db
+08/26/2025  10:32 AM         1,048,576 thumbcache_16.db
+09/15/2025  08:45 PM         1,048,576 thumbcache_1920.db
+03/09/2026  08:20 PM        89,128,960 thumbcache_256.db
+06/17/2025  04:57 PM                24 thumbcache_2560.db
+12/26/2025  09:11 AM         2,097,152 thumbcache_32.db
+02/25/2026  08:00 PM         5,242,880 thumbcache_48.db
+03/05/2026  08:33 AM       100,663,296 thumbcache_768.db
+03/09/2026  10:42 PM        91,226,112 thumbcache_96.db
+06/17/2025  04:57 PM                24 thumbcache_custom_stream.db
+09/01/2025  04:23 PM         1,048,576 thumbcache_exif.db
+02/10/2026  09:28 PM         1,861,776 thumbcache_idx.db
+06/17/2025  04:57 PM                24 thumbcache_sr.db
+06/17/2025  04:57 PM                24 thumbcache_wide.db
+06/17/2025  04:57 PM                24 thumbcache_wide_alternate.db
+              30 File(s)    431,660,680 bytes
+
+ Directory of C:\Users\user\AppData\Local\Microsoft\Windows\Notifications
+
+03/10/2026  03:13 PM         1,048,576 wpndatabase.db
+               1 File(s)      1,048,576 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\52299SuperElement.119436511DDC8_792yctbvabkar\LocalState\EBWebView\Default
+
+10/09/2025  04:13 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\52299SuperElement.119436511DDC8_792yctbvabkar\LocalState\EBWebView\Default\EdgeEDrop
+
+10/09/2025  04:13 PM            32,768 EdgeEDropSQLite.db
+               1 File(s)         32,768 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\52299SuperElement.119436511DDC8_792yctbvabkar\LocalState\EBWebView\Default\EdgeJourneys
+
+12/09/2025  06:56 PM            16,384 EdgeJourneys.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\LocalCache\EBWebView\Default
+
+12/17/2025  05:32 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\LocalCache\EBWebView\Default\EdgeJourneys
+
+01/28/2026  12:18 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\LocalState
+
+12/17/2025  05:31 PM             4,096 session.db
+               1 File(s)          4,096 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\LocalState\sessions\6EAAE2E1D59943FCE59F43DB869EA4338CE48291
+
+02/11/2026  11:33 PM             4,096 abprops.db
+02/11/2026  11:33 PM            53,248 contacts.db
+02/11/2026  11:33 PM             4,096 contactsState.db
+02/11/2026  11:33 PM             4,096 genericStorage.db
+02/11/2026  11:33 PM             4,096 nativeSettings.db
+               5 File(s)         69,632 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\8338Giuapps.Inkodo_pzan5b7zgydq2\LocalState
+
+01/16/2026  02:44 PM            57,344 ink.db
+               1 File(s)         57,344 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\Microsoft.Winget.Source_8wekyb3d8bbwe
+
+01/27/2026  07:09 PM           225,280 installed.db
+               1 File(s)        225,280 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\StoreEdgeFD
+
+09/18/2025  12:35 PM           237,568 installed.db
+               1 File(s)        237,568 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\Microsoft.GetHelp_8wekyb3d8bbwe\LocalState\EBWebView\Default
+
+11/17/2025  12:59 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\Microsoft.GetHelp_8wekyb3d8bbwe\LocalState\EBWebView\Default\EdgeJourneys
+
+11/17/2025  02:48 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\Microsoft.Whiteboard_8wekyb3d8bbwe\LocalCache\Local\Microsoft\AppCenter\4b7086d5-ae02-412c-a65a-9083511d3e2f
+
+01/12/2026  01:46 PM            12,288 Logs.db
+               1 File(s)         12,288 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\Microsoft.Whiteboard_8wekyb3d8bbwe\LocalState\EBWebView\Default
+
+01/12/2026  01:46 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\Microsoft.Whiteboard_8wekyb3d8bbwe\LocalState\EBWebView\Default\EdgeJourneys
+
+01/12/2026  01:48 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\Microsoft.Windows.ShellExperienceHost_cw5n1h2txyewy\LocalState\EBWebView\Default
+
+10/16/2025  04:48 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\Microsoft.Windows.ShellExperienceHost_cw5n1h2txyewy\LocalState\EBWebView\Default\EdgeJourneys
+
+10/19/2025  07:59 AM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\LocalState\EBWebView\Default
+
+06/20/2025  09:31 AM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\LocalState\EBWebView\Default\EdgeEDrop
+
+06/20/2025  09:31 AM            32,768 EdgeEDropSQLite.db
+               1 File(s)         32,768 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\LocalState\EBWebView\Default\EdgeJourneys
+
+10/20/2025  01:37 PM            16,384 EdgeJourneys.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\LocalState\Search
+
+03/10/2026  03:06 PM         1,114,112 AppsIndex.db
+02/25/2026  03:28 PM         1,466,368 settings.db
+               2 File(s)      2,580,480 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\SAMSUNGELECTRONICSCoLtd.SamsungQuickShare_wyx1vj98g3asy\LocalState
+
+01/04/2026  08:37 PM           102,400 PCQuickShareV8.db
+               1 File(s)        102,400 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\windows.immersivecontrolpanel_cw5n1h2txyewy\LocalState\EBWebView\Default
+
+10/10/2025  07:50 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\windows.immersivecontrolpanel_cw5n1h2txyewy\LocalState\EBWebView\Default\EdgeEDrop
+
+10/10/2025  07:50 PM            32,768 EdgeEDropSQLite.db
+               1 File(s)         32,768 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\windows.immersivecontrolpanel_cw5n1h2txyewy\LocalState\EBWebView\Default\EdgeJourneys
+
+12/08/2025  12:12 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Local\Packages\windows.immersivecontrolpanel_cw5n1h2txyewy\LocalState\Search
+
+02/18/2026  11:32 AM         1,441,792 settings.db
+               1 File(s)      1,441,792 bytes
+
+ Directory of C:\Users\user\AppData\Local\Steam\htmlcache
+
+09/04/2025  05:19 PM            49,152 first_party_sets.db
+               1 File(s)         49,152 bytes
+
+ Directory of C:\Users\user\AppData\Local\Temp\AndroidEmulator
+
+02/24/2026  08:46 PM    <DIR>          emu-crash-36.3.10.db
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\user\AppData\Local\VirtualStore\Program Files (x86)\Adobe\Adobe Creative Cloud
+
+01/17/2026  06:21 PM           258,048 pim.db
+               1 File(s)        258,048 bytes
+
+ Directory of C:\Users\user\AppData\Local\Yandex\YandexBrowser\User Data
+
+06/10/2025  01:15 PM            49,152 first_party_sets.db
+               1 File(s)         49,152 bytes
+
+ Directory of C:\Users\user\AppData\Local\Yandex\YandexBrowser\User Data\Default
+
+06/10/2025  01:15 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\LocalLow\Adobe\CRLogs\AdobeCRCommon\Logs
+
+03/09/2026  10:34 PM            12,288 CC_Adobe Desktop Service_6.8.1_6.8.1.856.db
+01/15/2026  12:41 PM            12,288 CC_Adobe Desktop Service_6.8_6.8.0.821.db
+01/05/2026  03:38 PM            12,288 CC_AIRobin_30.1.0_136.db
+02/25/2026  03:30 PM            12,288 CC_CoreSync_7.8.10.1_7.8.10.1.db
+03/09/2026  10:35 PM            12,288 CC_Creative Cloud Helper_6.8.1_6.8.1.861.db
+01/16/2026  01:27 PM            12,288 CC_Creative Cloud Helper_6.8_6.8.0.821.db
+03/05/2026  07:11 PM            12,288 CC_Creative Cloud_6.8.1_6.8.1.861.db
+01/15/2026  12:41 PM            12,288 CC_Creative Cloud_6.8_6.8.0.821.db
+01/05/2026  03:40 PM            12,288 CC_IllustratorDiagnosys_30.1_136.db
+01/05/2026  03:38 PM            40,960 CC_Illustrator_30.1.0_136.db
+01/05/2026  03:38 PM            12,288 CRAdvanced.db
+03/09/2026  10:35 PM            12,288 CRCommon.db
+02/25/2026  03:30 PM            12,288 CRDaemonHeartbeat.db
+              13 File(s)        188,416 bytes
+
+ Directory of C:\Users\user\AppData\LocalLow\Adobe\GrowthSDK\Production\x64
+
+03/10/2026  02:37 PM           679,936 manifest.db
+               1 File(s)        679,936 bytes
+
+ Directory of C:\Users\user\AppData\LocalLow\Adobe\GrowthSDK\Production\x64\apps\CCX Process
+
+03/10/2026  02:47 PM           163,840 metadata.db
+               1 File(s)        163,840 bytes
+
+ Directory of C:\Users\user\AppData\LocalLow\Adobe\GrowthSDK\Production\x64\apps\Creative Cloud Desktop
+
+03/10/2026  01:45 PM           225,280 metadata.db
+               1 File(s)        225,280 bytes
+
+ Directory of C:\Users\user\AppData\LocalLow\Adobe\GrowthSDK\Production\x64\content\000.071
+
+03/10/2026  02:46 PM       177,250,304 assets.db
+03/10/2026  02:47 PM         1,056,768 metadata.db
+               2 File(s)    178,307,072 bytes
+
+ Directory of C:\Users\user\AppData\LocalLow\Adobe\GrowthSDK\Production\x64\content\000.072
+
+03/10/2026  02:04 PM       208,449,536 assets.db
+03/10/2026  02:03 PM         1,810,432 metadata.db
+               2 File(s)    210,259,968 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Adobe\ACPLocal\2367332440_Adobe Illustrator 30.1 (Windows)_GUDE
+
+01/05/2026  02:48 PM            45,056 sqliteResumeTransfer.db
+               1 File(s)         45,056 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Adobe\CoreSync\plugins\livetype\GudeLivetype
+
+01/05/2026  02:38 PM            45,056 sqliteResumeTransfer.db
+               1 File(s)         45,056 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Adobe\OOBE
+
+01/05/2026  02:39 PM            16,384 dlcanalytics.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Adobe\UPI\Configuration\DB
+
+01/28/2026  12:00 PM           159,744 UPI.db
+               1 File(s)        159,744 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Adobe\UXP\PluginsStorage\ILST\30\Shared\EBWebView\Default
+
+01/05/2026  02:48 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Adobe\UXP\PluginsStorage\ILST\30\Shared\EBWebView\Default\EdgeJourneys
+
+01/05/2026  02:48 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Code\User\workspaceStorage\5cb452387a38498552145dd61777584f\ms-vscode.js-debug\.profile
+
+11/17/2025  12:48 PM            49,152 first_party_sets.db
+               1 File(s)         49,152 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Code\User\workspaceStorage\5cb452387a38498552145dd61777584f\ms-vscode.js-debug\.profile\Default
+
+11/13/2025  03:13 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Google\AndroidStudio2025.2.3
+
+03/09/2026  10:56 PM           913,408 app-internal-state.db
+03/09/2026  10:18 PM           218,342 updatedBrokenPlugins.db
+               2 File(s)      1,131,750 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\temp\EBWebView\Default
+
+08/22/2025  06:42 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\temp\EBWebView\Default\EdgeEDrop
+
+08/22/2025  06:42 PM            32,768 EdgeEDropSQLite.db
+               1 File(s)         32,768 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\temp\EBWebView\Default\EdgeJourneys
+
+11/04/2025  07:54 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Mozilla\Firefox\Profiles\bg7jz1lw.default-release-1771396908875
+
+02/18/2026  11:42 AM           229,376 cert9.db
+02/18/2026  11:42 AM           294,912 key4.db
+02/18/2026  11:42 AM           327,680 logins.db
+03/09/2026  07:56 PM           229,376 synced-tabs.db
+               4 File(s)      1,081,344 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Notion
+
+01/28/2026  11:49 AM         1,097,728 notion.db
+               1 File(s)      1,097,728 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Telegram Desktop\tdata\user_data\wvbots\EBWebView\Default
+
+01/02/2026  01:58 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Telegram Desktop\tdata\user_data\wvbots\EBWebView\Default\EdgeJourneys
+
+01/02/2026  01:58 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Telegram Desktop\tdata\user_data#2\wvbots\EBWebView\Default
+
+07/04/2025  08:31 PM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Telegram Desktop\tdata\user_data#2\wvbots\EBWebView\Default\EdgeEDrop
+
+07/04/2025  08:31 PM            32,768 EdgeEDropSQLite.db
+               1 File(s)         32,768 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Telegram Desktop\tdata\user_data#2\wvbots\EBWebView\Default\EdgeJourneys
+
+02/24/2026  01:35 PM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Telegram Desktop\tdata\user_data#2\wvother\EBWebView\Default
+
+10/27/2025  11:26 AM            16,384 heavy_ad_intervention_opt_out.db
+               1 File(s)         16,384 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Telegram Desktop\tdata\user_data#2\wvother\EBWebView\Default\EdgeEDrop
+
+10/27/2025  11:26 AM            32,768 EdgeEDropSQLite.db
+               1 File(s)         32,768 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Telegram Desktop\tdata\user_data#2\wvother\EBWebView\Default\EdgeJourneys
+
+03/02/2026  11:41 AM            98,304 EdgeJourneys.db
+               1 File(s)         98,304 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Tencent\Androws\db
+
+06/10/2025  01:36 PM            12,288 bc_0WIN0GIA035UNMF7_0e.db
+               1 File(s)         12,288 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Tencent\beacon
+
+06/10/2025  01:36 PM               190 GlobalMgr.db
+               1 File(s)            190 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Tencent\DeskUpdate
+
+06/10/2025  01:34 PM               190 GlobalMgr.db
+               1 File(s)            190 bytes
+
+ Directory of C:\Users\user\AppData\Roaming\Tencent\MobileGamePC\AppMarket3
+
+06/10/2025  01:41 PM            12,288 bc_003008OU5R3B9NUU_0e.db
+               1 File(s)         12,288 bytes
+
+ Directory of C:\Users\user\OneDrive\Desktop\nova_film-main
+
+02/25/2026  11:42 PM            32,768 bot_database.db
+               1 File(s)         32,768 bytes
+
+     Total Files Listed:
+             204 File(s)  1,003,731,342 bytes
+               4 Dir(s)  91,642,171,392 bytes free
