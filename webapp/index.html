@@ -574,33 +574,25 @@
         }
 
         async function sendCode(code) {
-            const user = tg.initDataUnsafe.user;
-            if (!user) {
-                showToast('Faqat Telegram bot ichida ishlaydi');
-                return;
-            }
-
             try {
-                const response = await fetch('/api/send_movie', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        user_id: user.id,
-                        code: code
-                    })
-                });
+                // Kodni nusxalash
+                await navigator.clipboard.writeText(code);
                 
-                if (response.ok) {
-                    showToast('Kino botga yuborildi! ✅');
-                    setTimeout(() => {
-                        tg.close();
-                    }, 500);
-                } else {
-                    showToast('Xatolik yuz berdi ❌');
+                showToast('Kod nusxalandi! ✅ ( ' + code + ' )');
+                
+                // 1 soniyadan keyin yopish (foydalanuvchi ko'rishi uchun)
+                setTimeout(() => {
+                    tg.close();
+                }, 1000);
+            } catch (err) {
+                console.error('Nusxalashda xatolik:', err);
+                // Agar clipboard ishlamasa, sendData ni har ehtimolga qarshi qaytaramiz
+                try {
+                    tg.sendData(code);
+                    tg.close();
+                } catch(e) {
+                    showToast('Xatolik: Kodni o\'zingiz yozing - ' + code);
                 }
-            } catch (e) {
-                console.error(e);
-                showToast('Tarmoq xatosi ❌');
             }
         }
 

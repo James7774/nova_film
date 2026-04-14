@@ -33,36 +33,6 @@ async def handle_get_movies(request):
     data = [{"code": m[0], "title": m[1]} for m in movies]
     return web.json_response(data)
 
-async def handle_send_movie(request):
-    data = await request.json()
-    user_id = data.get("user_id")
-    code = data.get("code")
-    
-    if not user_id or not code:
-        return web.json_response({"status": "error", "message": "Missing info"}, status=400)
-    
-    # We need to trigger the process_code logic
-    from handlers.user import process_code
-    from aiogram import types
-    
-    # Create a dummy message for process_code
-    bot = request.app['bot']
-    dummy_message = types.Message(
-        message_id=0,
-        date=datetime.now(),
-        chat=types.Chat(id=user_id, type="private"),
-        from_user=types.User(id=user_id, is_bot=False, first_name="User"),
-        text=str(code)
-    )
-    
-    # Run the existing logic
-    from aiogram.fsm.context import FSMContext
-    # Note: Logic inside process_code might need a real dispatcher/state, 
-    # but since we already have a direct numeric handler, we can just call it.
-    asyncio.create_task(process_code(dummy_message, None, bot))
-    
-    return web.json_response({"status": "success"})
-
 async def handle_webapp(request):
     with open("webapp/index.html", "r", encoding="utf-8") as f:
         return web.Response(text=f.read(), content_type="text/html")
@@ -96,11 +66,9 @@ async def main():
     # Start web server
     try:
         app = web.Application()
-        app['bot'] = bot
         app.router.add_get("/", handle_webapp)
         app.router.add_get("/health", handle_health_check)
         app.router.add_get("/api/movies", handle_get_movies)
-        app.router.add_post("/api/send_movie", handle_send_movie)
         runner = web.AppRunner(app)
         await runner.setup()
         port = int(os.getenv("PORT", 8080))
