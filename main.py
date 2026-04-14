@@ -48,6 +48,7 @@ async def main():
     # Set Menu Button (Web App)
     from aiogram.types import WebAppInfo, MenuButtonWebApp
     webapp_url = os.getenv("WEBAPP_URL", "https://vaqtinchalik-url.uz") # Replace with your real URL
+    try:
         await bot.set_chat_menu_button(
             menu_button=MenuButtonWebApp(text="Kino kodlari", web_app=WebAppInfo(url=webapp_url))
         )
@@ -78,24 +79,10 @@ async def main():
         logger.warning(f"Could not start health check server: {e}. If you are running locally, this is normal.")
 
     # Start polling
-    logger.info("🚀 Preparing to start polling...")
-    try:
-        me = await bot.get_me()
-        logger.info(f"✅ Bot is authenticated as @{me.username}")
-        await bot.delete_webhook(drop_pending_updates=True)
-        logger.info("🧹 Pending updates cleared.")
-        logger.info("Starting bot polling...")
-        await dp.start_polling(bot)
-    except Exception as e:
-        logger.critical(f"❌ Critical error in polling: {e}")
-    finally:
-        logger.info("Polling stopped. Closing bot session and database connection...")
-        await bot.session.close()
-        await close_db()
-        logger.info("Bot session and database connection closed.")
+    await dp.start_polling(bot)
 
 if __name__ == "__main__":
     try:
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
-        logger.info("Bot stopped!")
+        logger.info("Bot stopped")
