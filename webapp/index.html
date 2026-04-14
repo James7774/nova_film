@@ -580,19 +580,10 @@
                 
                 showToast('Kod nusxalandi! ✅ ( ' + code + ' )');
                 
-                // 1 soniyadan keyin yopish (foydalanuvchi ko'rishi uchun)
-                setTimeout(() => {
-                    tg.close();
-                }, 1000);
+                // tg.close() olib tashlandi - ilova yopilmaydi
             } catch (err) {
                 console.error('Nusxalashda xatolik:', err);
-                // Agar clipboard ishlamasa, sendData ni har ehtimolga qarshi qaytaramiz
-                try {
-                    tg.sendData(code);
-                    tg.close();
-                } catch(e) {
-                    showToast('Xatolik: Kodni o\'zingiz yozing - ' + code);
-                }
+                showToast('Xatolik: Kodni o\'zingiz yozing - ' + code);
             }
         }
 
