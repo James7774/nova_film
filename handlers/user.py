@@ -236,7 +236,8 @@ async def process_code(message: types.Message, state: FSMContext, bot: Bot):
                         message_id=storage_message_id,
                         caption=caption,
                         parse_mode="HTML",
-                        reply_markup=kb
+                        reply_markup=kb,
+                        protect_content=True
                     )
                     await increment_views(video_id)
                     await state.clear()
@@ -260,13 +261,13 @@ async def process_code(message: types.Message, state: FSMContext, bot: Bot):
             # Fallback or direct file delivery
             if file_id:
                 if file_type == 'video':
-                    await message.answer_video(video=file_id, caption=caption, parse_mode="HTML", reply_markup=kb)
+                    await message.answer_video(video=file_id, caption=caption, parse_mode="HTML", reply_markup=kb, protect_content=True)
                 elif file_type == 'document':
-                    await message.answer_document(document=file_id, caption=caption, parse_mode="HTML", reply_markup=kb)
+                    await message.answer_document(document=file_id, caption=caption, parse_mode="HTML", reply_markup=kb, protect_content=True)
                 elif file_type == 'animation':
-                    await message.answer_animation(animation=file_id, caption=caption, parse_mode="HTML", reply_markup=kb)
+                    await message.answer_animation(animation=file_id, caption=caption, parse_mode="HTML", reply_markup=kb, protect_content=True)
                 else:
-                    await message.answer_video(video=file_id, caption=caption, parse_mode="HTML", reply_markup=kb)
+                    await message.answer_video(video=file_id, caption=caption, parse_mode="HTML", reply_markup=kb, protect_content=True)
                 
                 await increment_views(video_id)
             else:
@@ -364,7 +365,8 @@ async def cb_send_video(callback: types.CallbackQuery, bot: Bot, state: FSMConte
                     message_id=storage_message_id,
                     caption=caption,
                     parse_mode="HTML",
-                    reply_markup=kb
+                    reply_markup=kb,
+                    protect_content=True
                 )
                 await increment_views(video_id)
                 await callback.answer()
@@ -387,13 +389,13 @@ async def cb_send_video(callback: types.CallbackQuery, bot: Bot, state: FSMConte
         # Send based on file type (fallback if storage channel fails or is not set)
         if file_id:
             if file_type == 'video':
-                await callback.message.answer_video(video=file_id, caption=caption, parse_mode="HTML", reply_markup=kb)
+                await callback.message.answer_video(video=file_id, caption=caption, parse_mode="HTML", reply_markup=kb, protect_content=True)
             elif file_type == 'document':
-                await callback.message.answer_document(document=file_id, caption=caption, parse_mode="HTML", reply_markup=kb)
+                await callback.message.answer_document(document=file_id, caption=caption, parse_mode="HTML", reply_markup=kb, protect_content=True)
             elif file_type == 'animation':
-                await callback.message.answer_animation(animation=file_id, caption=caption, parse_mode="HTML", reply_markup=kb)
+                await callback.message.answer_animation(animation=file_id, caption=caption, parse_mode="HTML", reply_markup=kb, protect_content=True)
             else:
-                await callback.message.answer_video(video=file_id, caption=caption, parse_mode="HTML", reply_markup=kb)
+                await callback.message.answer_video(video=file_id, caption=caption, parse_mode="HTML", reply_markup=kb, protect_content=True)
             
             await increment_views(video_id)
             await callback.answer()
